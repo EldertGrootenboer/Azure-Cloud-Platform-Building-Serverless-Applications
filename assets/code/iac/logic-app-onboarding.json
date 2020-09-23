@@ -43,13 +43,11 @@
             "defaultValue": {
                 "apiConnections": {
                     "azureblob": "azureblob",
-                    "customConnectorHr2day": "cc-hr2day",
-                    "customConnectorTopdesk": "cc-topdesk",
                     "muhimbi": "muhimbi",
                     "office365": "office365",
                     "sharepointonline": "sharepointonline"
                 },
-                "name": "logic-onboarding-process"
+                "name": "logic-onboarding"
             },
             "type": "object"
         },
@@ -179,7 +177,7 @@
                                         },
                                         "host": {
                                             "connection": {
-                                                "name": "[concat('@parameters(''$connections'')[''', parameters('logicApp').apiConnections.customConnectorTopdesk, '''][''connectionId'']')]"
+                                                "name": "[concat('@parameters(''$connections'')[''', ('logicApp').apiConnections.customConnectorTopdesk, '''][''connectionId'']')]"
                                             }
                                         },
                                         "method": "post",
@@ -207,7 +205,7 @@
                                         },
                                         "host": {
                                             "connection": {
-                                                "name": "[concat('@parameters(''$connections'')[''', parameters('logicApp').apiConnections.customConnectorTopdesk, '''][''connectionId'']')]"
+                                                "name": "[concat('@parameters(''$connections'')[''', ('logicApp').apiConnections.customConnectorTopdesk, '''][''connectionId'']')]"
                                             }
                                         },
                                         "method": "post",
@@ -339,16 +337,6 @@
                             "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.azureblob)]",
                             "connectionName": "azureblob",
                             "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'azureblob')]"
-                        },
-                        "cc-hr2day": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.customConnectorHr2day)]",
-                            "connectionName": "cc-hr2day",
-                            "id": "[resourceId('Microsoft.Web/customApis', parameters('logicApp').apiConnections.customConnectorHr2day)]"
-                        },
-                        "cc-topdesk": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.customConnectorTopdesk)]",
-                            "connectionName": "cc-topdesk",
-                            "id": "[resourceId('Microsoft.Web/customApis', parameters('logicApp').apiConnections.customConnectorTopdesk)]"
                         },
                         "muhimbi": {
                             "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.muhimbi)]",

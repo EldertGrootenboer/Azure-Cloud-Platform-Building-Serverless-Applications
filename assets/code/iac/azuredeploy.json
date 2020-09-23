@@ -1,0 +1,218 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "administratorObjectId": {
+            "type": "string"
+        },
+        "servicePrincipalPasswordEventGrid": {
+            "type": "securestring"
+        },
+        "servicePrincipalClientIdEventGrid": {
+            "type": "securestring"
+        },
+        "gitHub": {
+            "defaultValue": {
+                "baseUri": "https://raw.githubusercontent.com/EldertGrootenboer/Azure-s-Cloud-Platform-Building-Serverless-Applications/master/assets/code/iac/"
+            },
+            "type": "object"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "applicationInsights",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'application-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "keyVault",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'key-vault.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "administratorObjectId": {
+                        "value": "[parameters('administratorObjectId')]"
+                    },
+                    "servicePrincipalPasswordEventGrid": {
+                        "value": "[parameters('servicePrincipalPasswordEventGrid')]"
+                    },
+                    "servicePrincipalClientIdEventGrid": {
+                        "value": "[parameters('servicePrincipalClientIdEventGrid')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "azureblob",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'azureblob.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "azureeventgrid",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'azureeventgrid.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "muhimbi",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'muhimbi.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "office365",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'office365.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "storageAccount",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "functionApp",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'applicationInsights')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'function-app.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "apiManagement",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'applicationInsights')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'api-management.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "apiHr2day",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'apiManagement')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'api-management-api-hr2day.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "apiTopdesk",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'apiManagement')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'api-management-api-topdesk.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "logicAppContractProcessing",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'functionApp')]",
+                "[resourceId('Microsoft.Resources/deployments', 'azureblob')]",
+                "[resourceId('Microsoft.Resources/deployments', 'azureeventgrid')]",
+                "[resourceId('Microsoft.Resources/deployments', 'office365')]",
+                "[resourceId('Microsoft.Resources/deployments', 'storageAccount')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'logic-app-contract-processing.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "logicAppOnboarding",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'apiHr2day')]",
+                "[resourceId('Microsoft.Resources/deployments', 'apiTopdesk')]",
+                "[resourceId('Microsoft.Resources/deployments', 'azureblob')]",
+                "[resourceId('Microsoft.Resources/deployments', 'muhimbi')]",
+                "[resourceId('Microsoft.Resources/deployments', 'office365')]",
+                "[resourceId('Microsoft.Resources/deployments', 'sharepointonline')]",
+                "[resourceId('Microsoft.Resources/deployments', 'storageAccount')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'logic-app-onboarding.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        }
+    ]
+}

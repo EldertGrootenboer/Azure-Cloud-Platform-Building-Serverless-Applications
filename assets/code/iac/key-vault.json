@@ -5,11 +5,11 @@
         "administratorObjectId": {
             "type": "string"
         },
-        "apiAppRegistrationApplicationId": {
-            "type": "string"
+        "servicePrincipalPasswordEventGrid": {
+            "type": "securestring"
         },
-        "basicAuthenticationPassword": {
-            "type": "string"
+        "servicePrincipalClientIdEventGrid": {
+            "type": "securestring"
         },
         "general": {
             "defaultValue": {
@@ -26,7 +26,7 @@
             "defaultValue": {
                 "name": "[concat('kv-', uniqueString(resourceGroup().name))]",
                 "secrets": {
-                    "servicePrincipalClientId": "EventGridServicePrincipalClientId",
+                    "servicePrincipalClientIdEventGrid": "EventGridServicePrincipalClientId",
                     "servicePrincipalPasswordEventGrid": "EventGridServicePrincipalPassword"
                 }
             },
@@ -110,12 +110,12 @@
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2016-10-01",
-            "name": "[concat(parameters('keyVault').name, '/', parameters('keyVault').secrets.basicAuthenticationPassword)]",
+            "name": "[concat(parameters('keyVault').name, '/', parameters('keyVault').secrets.servicePrincipalClientIdEventGrid)]",
             "dependsOn": [
                 "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVault').name)]"
             ],
             "properties": {
-                "value": "[parameters('basicAuthenticationPassword')]",
+                "value": "[parameters('servicePrincipalClientIdEventGrid')]",
                 "attributes": {
                     "enabled": true
                 }
@@ -124,12 +124,12 @@
         {
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2016-10-01",
-            "name": "[concat(parameters('keyVault').name, '/', parameters('keyVault').secrets.apiAppRegistrationApplicationId)]",
+            "name": "[concat(parameters('keyVault').name, '/', parameters('keyVault').secrets.servicePrincipalPasswordEventGrid)]",
             "dependsOn": [
                 "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVault').name)]"
             ],
             "properties": {
-                "value": "[parameters('apiAppRegistrationApplicationId')]",
+                "value": "[parameters('servicePrincipalPasswordEventGrid')]",
                 "attributes": {
                     "enabled": true
                 }

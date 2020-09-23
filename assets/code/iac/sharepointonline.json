@@ -2,15 +2,17 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "customConnector": {
-            "defaultValue": {
-                "name": "cc-topdesk"
-            },
-            "type": "object"
-        },
         "general": {
             "defaultValue": {
                 "location": "[resourceGroup().location]"
+            },
+            "type": "object"
+        },
+        "logicApps": {
+            "defaultValue": {
+                "apiConnections": {
+                    "office365": "sharepointonline"
+                }
             },
             "type": "object"
         }
@@ -19,11 +21,11 @@
         {
             "type": "Microsoft.Web/connections",
             "apiVersion": "2016-06-01",
-            "name": "[parameters('customConnector').name]",
+            "name": "[parameters('logicApps').apiConnections.sharepointonline]",
             "location": "[parameters('general').location]",
             "properties": {
                 "api": {
-                    "id": "[resourceId('Microsoft.Web/customApis', parameters('customConnector').name)]"
+                    "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'sharepointonline')]"
                 }
             }
         }
