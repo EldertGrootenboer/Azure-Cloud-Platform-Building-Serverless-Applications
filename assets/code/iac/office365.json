@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "general": {
+            "defaultValue": {
+                "location": "[resourceGroup().location]"
+            },
+            "type": "object"
+        },
+        "logicApps": {
+            "defaultValue": {
+                "apiConnections": {
+                    "office365": "office365"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('logicApps').apiConnections.office365]",
+            "location": "[parameters('general').location]",
+            "properties": {
+                "api": {
+                    "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'office365')]"
+                }
+            }
+        }
+    ]
+}

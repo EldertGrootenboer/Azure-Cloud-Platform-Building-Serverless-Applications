@@ -4,10 +4,13 @@
     "parameters": {
         "apiManagement": {
             "defaultValue": {
-                "name": "apim-building-serverless-applications",
+                "name": "[concat('apim-building-serverless-applications', uniqueString(resourceGroup().name))]",
                 "publisherEmail": "eldert@eldert.net",
                 "publisherName": "EPH",
-                "sku": "Consumption"
+                "sku": "Consumption",
+                "subscriptions": {
+                    "demo": "Demo"
+                }
             },
             "type": "object"
         },
@@ -80,6 +83,20 @@
                     "samplingType": "fixed",
                     "percentage": 100
                 }
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/subscriptions",
+            "apiVersion": "2019-12-01",
+            "name": "[concat(parameters('apiManagement').name, '/', parameters('apiManagement').subscriptions.demo)]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagement').name)]"
+            ],
+            "properties": {
+                "scope": "[concat(resourceId('Microsoft.ApiManagement/service', parameters('apiManagement').name), '/apis')]",
+                "displayName": "[parameters('apiManagement').subscriptions.demo]",
+                "state": "active",
+                "allowTracing": true
             }
         }
     ]

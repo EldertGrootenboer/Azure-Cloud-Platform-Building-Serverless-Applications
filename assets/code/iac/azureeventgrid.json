@@ -1,0 +1,105 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "general": {
+            "defaultValue": {
+                "location": "[resourceGroup().location]"
+            },
+            "type": "object"
+        },
+        "keyVault": {
+            "defaultValue": {
+                "name": "[concat('kv-', uniqueString(resourceGroup().name))]",
+                "secrets": {
+                    "servicePrincipalClientIdEventGrid": "EventGridServicePrincipalClientId",
+                    "servicePrincipalPasswordEventGrid": "EventGridServicePrincipalPassword"
+                }
+            },
+            "type": "object"
+        },
+        "logicApps": {
+            "defaultValue": {
+                "apiConnections": {
+                    "azureeventgrid": "azureeventgrid"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "resources": [
+        {
+            "name": "eventGridConnection",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "properties": {
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                    "general": {
+                        "value": "[parameters('general')]"
+                    },
+                    "logicApps": {
+                        "value": "[parameters('logicApps')]"
+                    },
+                    "servicePrincipalPasswordEventGrid": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVault').name)]"
+                            },
+                            "secretName": "[parameters('keyVault').secrets.servicePrincipalPasswordEventGrid]"
+                        }
+                    },
+                    "servicePrincipalClientIdEventGrid": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVault').name)]"
+                            },
+                            "secretName": "[parameters('keyVault').secrets.servicePrincipalClientIdEventGrid]"
+                        }
+                    }
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "general": {
+                            "type": "object"
+                        },
+                        "logicApps": {
+                            "type": "object"
+                        },
+                        "servicePrincipalPasswordEventGrid": {
+                            "type": "securestring"
+                        },
+                        "servicePrincipalClientIdEventGrid": {
+                            "type": "securestring"
+                        }
+                    },
+                    "resources": [
+                        {
+                            "type": "Microsoft.Web/connections",
+                            "apiVersion": "2016-06-01",
+                            "name": "[parameters('logicApps').apiConnections.azureeventgrid]",
+                            "location": "[parameters('general').location]",
+                            "properties": {
+                                "parameterValues": {
+                                    "token:clientId": "[parameters('servicePrincipalClientIdEventGrid')]",
+                                    "token:clientSecret": "[parameters('servicePrincipalPasswordEventGrid')]",
+                                    "token:TenantId": "[subscription().tenantId]",
+                                    "token:grantType": "client_credentials"
+                                },
+                                "api": {
+                                    "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'azureeventgrid')]"
+                                }
+                            }
+                        }
+                    ],
+                    "outputs": {}
+                }
+            }
+        }
+    ]
+}

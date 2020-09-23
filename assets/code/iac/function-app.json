@@ -11,7 +11,7 @@
         },
         "storageAccount": {
             "defaultValue": {
-                "name": "sabuildingserverlessapps"
+                "name": "[concat('st', uniqueString(resourceGroup().name))]"
             },
             "type": "object"
         },

@@ -7,7 +7,7 @@
                 "containers": {
                     "contracts": "contracts"
                 },
-                "name": "sabuildingserverlessapps"
+                "name": "[concat('st', uniqueString(resourceGroup().name))]"
             },
             "type": "object"
         },

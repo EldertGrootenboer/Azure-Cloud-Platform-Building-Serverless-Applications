@@ -19,7 +19,7 @@
                         "serviceUrl": "https://httpbin.org"
                     }
                 },
-                "name": "apim-building-serverless-applications"
+                "name": "[concat('apim-building-serverless-applications', uniqueString(resourceGroup().name))]"
             },
             "type": "object"
         }
