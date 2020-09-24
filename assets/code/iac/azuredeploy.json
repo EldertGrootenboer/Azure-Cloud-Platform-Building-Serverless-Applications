@@ -5,17 +5,17 @@
         "administratorObjectId": {
             "type": "string"
         },
-        "servicePrincipalPasswordEventGrid": {
-            "type": "securestring"
-        },
-        "servicePrincipalClientIdEventGrid": {
-            "type": "securestring"
-        },
         "gitHub": {
             "defaultValue": {
                 "baseUri": "https://raw.githubusercontent.com/EldertGrootenboer/Azure-s-Cloud-Platform-Building-Serverless-Applications/master/assets/code/iac/"
             },
             "type": "object"
+        },
+        "servicePrincipalClientIdEventGrid": {
+            "type": "string"
+        },
+        "servicePrincipalPasswordEventGrid": {
+            "type": "securestring"
         }
     },
     "resources": [
@@ -47,9 +47,6 @@
                     },
                     "servicePrincipalPasswordEventGrid": {
                         "value": "[parameters('servicePrincipalPasswordEventGrid')]"
-                    },
-                    "servicePrincipalClientIdEventGrid": {
-                        "value": "[parameters('servicePrincipalClientIdEventGrid')]"
                     }
                 }
             }
@@ -75,6 +72,11 @@
                 "templateLink": {
                     "uri": "[uri(parameters('gitHub').baseUri, 'azureeventgrid.json')]",
                     "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "servicePrincipalClientIdEventGrid": {
+                        "value": "[parameters('servicePrincipalClientIdEventGrid')]"
+                    }
                 }
             }
         },

@@ -5,12 +5,6 @@
         "administratorObjectId": {
             "type": "string"
         },
-        "servicePrincipalPasswordEventGrid": {
-            "type": "securestring"
-        },
-        "servicePrincipalClientIdEventGrid": {
-            "type": "securestring"
-        },
         "general": {
             "defaultValue": {
                 "location": "[resourceGroup().location]",
@@ -26,11 +20,13 @@
             "defaultValue": {
                 "name": "[concat('kv-', uniqueString(resourceGroup().name))]",
                 "secrets": {
-                    "servicePrincipalClientIdEventGrid": "EventGridServicePrincipalClientId",
                     "servicePrincipalPasswordEventGrid": "EventGridServicePrincipalPassword"
                 }
             },
             "type": "object"
+        },
+        "servicePrincipalPasswordEventGrid": {
+            "type": "securestring"
         }
     },
     "resources": [
@@ -108,20 +104,7 @@
             }
         },
         {
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "apiVersion": "2016-10-01",
-            "name": "[concat(parameters('keyVault').name, '/', parameters('keyVault').secrets.servicePrincipalClientIdEventGrid)]",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVault').name)]"
-            ],
-            "properties": {
-                "value": "[parameters('servicePrincipalClientIdEventGrid')]",
-                "attributes": {
-                    "enabled": true
-                }
-            }
-        },
-        {
+            "condition": "[not(empty(parameters('servicePrincipalPasswordEventGrid')))]",
             "type": "Microsoft.KeyVault/vaults/secrets",
             "apiVersion": "2016-10-01",
             "name": "[concat(parameters('keyVault').name, '/', parameters('keyVault').secrets.servicePrincipalPasswordEventGrid)]",

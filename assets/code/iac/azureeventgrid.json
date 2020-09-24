@@ -12,7 +12,6 @@
             "defaultValue": {
                 "name": "[concat('kv-', uniqueString(resourceGroup().name))]",
                 "secrets": {
-                    "servicePrincipalClientIdEventGrid": "EventGridServicePrincipalClientId",
                     "servicePrincipalPasswordEventGrid": "EventGridServicePrincipalPassword"
                 }
             },
@@ -25,6 +24,9 @@
                 }
             },
             "type": "object"
+        },
+        "servicePrincipalClientIdEventGrid": {
+            "type": "string"
         }
     },
     "resources": [
@@ -44,20 +46,15 @@
                     "logicApps": {
                         "value": "[parameters('logicApps')]"
                     },
+                    "servicePrincipalClientIdEventGrid": {                        
+                        "value": "[parameters('servicePrincipalClientIdEventGrid')]"
+                    },
                     "servicePrincipalPasswordEventGrid": {
                         "reference": {
                             "keyVault": {
                                 "id": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVault').name)]"
                             },
                             "secretName": "[parameters('keyVault').secrets.servicePrincipalPasswordEventGrid]"
-                        }
-                    },
-                    "servicePrincipalClientIdEventGrid": {
-                        "reference": {
-                            "keyVault": {
-                                "id": "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVault').name)]"
-                            },
-                            "secretName": "[parameters('keyVault').secrets.servicePrincipalClientIdEventGrid]"
                         }
                     }
                 },
@@ -75,7 +72,7 @@
                             "type": "securestring"
                         },
                         "servicePrincipalClientIdEventGrid": {
-                            "type": "securestring"
+                            "type": "string"
                         }
                     },
                     "resources": [

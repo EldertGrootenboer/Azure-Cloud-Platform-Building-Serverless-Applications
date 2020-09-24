@@ -1,7 +1,16 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "functionApp": {
+            "defaultValue": {
+                "functions": {
+                    "pgpEncryptor": "PGPEncryptor"
+                },
+                "name": "func-building-serverless-applications"
+            },
+            "type": "object"
+        },
         "general": {
             "defaultValue": {
                 "location": "[resourceGroup().location]",
@@ -13,23 +22,14 @@
             },
             "type": "object"
         },
-        "functionApp": {
-            "defaultValue": {
-                "name": "func-building-serverless-applications",
-                "functions": {
-                    "pgpEncryptor": "PGPEncryptor"
-                }
-            },
-            "type": "object"
-        },
         "logicApp": {
             "defaultValue": {
-                "name": "logic-contract-processing",
                 "apiConnections": {
                     "azureblob": "azureblob",
                     "azureeventgrid": "azureeventgrid",
                     "office365": "office365"
-                }
+                },
+                "name": "logic-contract-processing"
             },
             "type": "object"
         },
