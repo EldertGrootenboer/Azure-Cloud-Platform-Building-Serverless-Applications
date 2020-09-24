@@ -6,6 +6,7 @@
             "defaultValue": {
                 "apis": {
                     "hr2day": {
+                        "name": "HR2day",
                         "operations": {
                             "registerEmployee": {
                                 "urlTemplate": "/employee"
@@ -13,6 +14,7 @@
                         }
                     },
                     "topdesk": {
+                        "name": "TOPdesk",
                         "operations": {
                             "materials": {
                                 "urlTemplate": "/materials"
@@ -163,7 +165,7 @@
                                 "Order_materials": {
                                     "inputs": {
                                         "api": {
-                                            "id": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiManagement').name, parameters('apiManagement').apis.topdesk)]"
+                                            "id": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiManagement').name, parameters('apiManagement').apis.topdesk.name)]"
                                         },
                                         "method": "post",
                                         "pathTemplate": {
@@ -191,7 +193,7 @@
                                 "Register_employee": {
                                     "inputs": {
                                         "api": {
-                                            "id": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiManagement').name, parameters('apiManagement').apis.hr2day)]"
+                                            "id": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiManagement').name, parameters('apiManagement').apis.hr2day.name)]"
                                         },
                                         "method": "post",
                                         "pathTemplate": {
