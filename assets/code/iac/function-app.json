@@ -17,7 +17,7 @@
         },
         "applicationInsights": {
             "defaultValue": {
-                "name": "ai-smart-data-and-integration-hub-m10"
+                "name": "appi-building-serverless-applications"
             },
             "type": "object"
         },
