@@ -42,8 +42,8 @@ Publish-AzWebapp -ResourceGroupName $resourceGroupName -Name $appServiceName -Ar
 Remove-Item "$basePath\assets\code\pgp-encryptor\Deployment.zip"
 
 # Optional for debugging, loops through each local file individually
-#Get-ChildItem "$basePath\assets\iac" -Filter *.json | 
+#Get-ChildItem "$basePath\assets\code\iac" -Filter *.json | 
 #Foreach-Object {
 #    Write-Output "Deploying: " $_.FullName
-#   New-AzResourceGroupDeployment -Name Demo -ResourceGroupName $resourceGroupName -TemplateFile $_.FullName -ErrorAction Continue
+#    New-AzResourceGroupDeployment -Name Demo -ResourceGroupName $resourceGroupName -TemplateFile $_.FullName -ErrorAction Continue
 #}
