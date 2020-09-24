@@ -5,7 +5,7 @@
         "functionApp": {
             "defaultValue": {
                 "appServicePlan": "plan-building-serverless-applications",
-                "name": "[concat('func-building-serverless-applications', uniqueString(resourceGroup().name))]"
+                "name": "[concat('func-building-serverless-applications-', uniqueString(resourceGroup().name))]"
             },
             "type": "object"
         },

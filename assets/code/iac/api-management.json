@@ -4,7 +4,7 @@
     "parameters": {
         "apiManagement": {
             "defaultValue": {
-                "name": "[concat('apim-building-serverless-applications', uniqueString(resourceGroup().name))]",
+                "name": "[concat('apim-building-serverless-applications-', uniqueString(resourceGroup().name))]",
                 "publisherEmail": "eldert@eldert.net",
                 "publisherName": "EPH",
                 "sku": "Developer",
