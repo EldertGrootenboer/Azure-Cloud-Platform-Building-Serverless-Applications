@@ -197,25 +197,6 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
-            "name": "logicAppContractProcessing",
-            "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments', 'functionApp')]",
-                "[resourceId('Microsoft.Resources/deployments', 'azureblob')]",
-                "[resourceId('Microsoft.Resources/deployments', 'azureeventgrid')]",
-                "[resourceId('Microsoft.Resources/deployments', 'office365')]",
-                "[resourceId('Microsoft.Resources/deployments', 'storageAccount')]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[uri(parameters('gitHub').baseUri, 'logic-app-contract-processing.json')]",
-                    "contentVersion": "1.0.0.0"
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
             "name": "logicAppOnboarding",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', 'apiHr2day')]",

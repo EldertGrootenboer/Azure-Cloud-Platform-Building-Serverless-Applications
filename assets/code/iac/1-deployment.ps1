@@ -41,6 +41,10 @@ Compress-Archive -Path "$basePath\assets\code\pgp-encryptor\publish\*" -Destinat
 Publish-AzWebapp -ResourceGroupName $resourceGroupName -Name $appServiceName -ArchivePath "$basePath\assets\code\pgp-encryptor\Deployment.zip"
 Remove-Item "$basePath\assets\code\pgp-encryptor\Deployment.zip"
 
+# Deploy contract processing Logic App
+# Can not be done from orchestrator as it needs the Function to first be deployed
+New-AzResourceGroupDeployment -Name "BuildServerlessApps" -ResourceGroupName $resourceGroupName -TemplateFile "$basePath\assets\code\iac\logic-app-contract-processing.json"
+
 # Optional for debugging, loops through each local file individually
 #Get-ChildItem "$basePath\assets\code\iac" -Filter *.json | 
 #Foreach-Object {
