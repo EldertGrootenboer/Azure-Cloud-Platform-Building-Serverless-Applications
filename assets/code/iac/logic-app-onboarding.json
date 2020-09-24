@@ -184,7 +184,7 @@
                                         }
                                     },
                                     "runAfter": {
-                                        "Order_materials": [
+                                        "Set_approved": [
                                             "Succeeded"
                                         ]
                                     },
