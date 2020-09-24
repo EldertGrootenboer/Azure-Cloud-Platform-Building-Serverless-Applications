@@ -335,25 +335,27 @@
                 },
                 "parameters": {
                     "$connections": {
-                        "azureblob": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.azureblob)]",
-                            "connectionName": "azureblob",
-                            "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'azureblob')]"
-                        },
-                        "muhimbi": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.muhimbi)]",
-                            "connectionName": "muhimbi",
-                            "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'muhimbi')]"
-                        },
-                        "office365": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.office365)]",
-                            "connectionName": "office365",
-                            "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'office365')]"
-                        },
-                        "sharepointonline": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.sharepointonline)]",
-                            "connectionName": "sharepointonline",
-                            "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'sharepointonline')]"
+                        "value": {
+                            "azureblob": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.azureblob)]",
+                                "connectionName": "azureblob",
+                                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'azureblob')]"
+                            },
+                            "muhimbi": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.muhimbi)]",
+                                "connectionName": "muhimbi",
+                                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'muhimbi')]"
+                            },
+                            "office365": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.office365)]",
+                                "connectionName": "office365",
+                                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'office365')]"
+                            },
+                            "sharepointonline": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.sharepointonline)]",
+                                "connectionName": "sharepointonline",
+                                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'sharepointonline')]"
+                            }
                         }
                     }
                 },

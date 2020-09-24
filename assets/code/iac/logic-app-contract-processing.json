@@ -189,20 +189,22 @@
                 },
                 "parameters": {
                     "$connections": {
-                        "azureblob": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.azureblob)]",
-                            "connectionName": "azureblob",
-                            "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'azureblob')]"
-                        },
-                        "azureeventgrid": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.azureeventgrid)]",
-                            "connectionName": "azureeventgrid",
-                            "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'azureeventgrid')]"
-                        },
-                        "office365": {
-                            "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.office365)]",
-                            "connectionName": "office365",
-                            "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'office365')]"
+                        "value": {
+                            "azureblob": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.azureblob)]",
+                                "connectionName": "azureblob",
+                                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'azureblob')]"
+                            },
+                            "azureeventgrid": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.azureeventgrid)]",
+                                "connectionName": "azureeventgrid",
+                                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'azureeventgrid')]"
+                            },
+                            "office365": {
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('logicApp').apiConnections.office365)]",
+                                "connectionName": "office365",
+                                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('general').location, 'office365')]"
+                            }
                         }
                     }
                 },

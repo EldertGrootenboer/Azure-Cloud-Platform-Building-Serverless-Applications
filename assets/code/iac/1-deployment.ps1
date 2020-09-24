@@ -5,7 +5,7 @@
 
 # Update these according to the environment
 $subscriptionName = "Visual Studio Enterprise"
-$resourceGroupName = "rg-building-serverless-applications"
+$resourceGroupName = "rg-building-serverless-applications-2"
 $appRegistrationName = "sp-building-serverless-applications-event-grid"
 $administratorEmail = "me@eldert.net"
 $basePath = "C:\Users\elder\OneDrive\Sessions\Azure-s-Cloud-Platform-Building-Serverless-Applications"
