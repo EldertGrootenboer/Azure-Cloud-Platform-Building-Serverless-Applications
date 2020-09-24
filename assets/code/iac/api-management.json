@@ -7,7 +7,7 @@
                 "name": "[concat('apim-building-serverless-applications', uniqueString(resourceGroup().name))]",
                 "publisherEmail": "eldert@eldert.net",
                 "publisherName": "EPH",
-                "sku": "Consumption",
+                "sku": "Developer",
                 "subscriptions": {
                     "demo": "Demo"
                 }
@@ -71,7 +71,6 @@
             "apiVersion": "2019-01-01",
             "name": "[concat(parameters('apiManagement').name, '/applicationinsights')]",
             "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagement').name)]",
                 "[resourceId('Microsoft.ApiManagement/service/loggers', parameters('apiManagement').name, parameters('applicationInsights').name)]"
             ],
             "properties": {
