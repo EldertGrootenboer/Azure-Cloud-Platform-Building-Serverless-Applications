@@ -161,13 +161,15 @@
                                     }
                                 },
                                 "Order_materials": {
-                                    "runAfter": {
-                                        "Set_approved": [
-                                            "Succeeded"
-                                        ]
-                                    },
-                                    "type": "ApiConnection",
                                     "inputs": {
+                                        "api": {
+                                            "id": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiManagement').name, parameters('apiManagement').apis.topdesk)]"
+                                        },
+                                        "method": "post",
+                                        "pathTemplate": {
+                                            "parameters": {},
+                                            "template": "[concat('/', parameters('apiManagement').name, parameters('apiManagement').apis.topdesk.operations.materials.urlTemplate)]"
+                                        },
                                         "body": {
                                             "laptop": "@triggerBody()?['Laptop']",
                                             "phone": "@triggerBody()?['Phone']"
@@ -175,26 +177,27 @@
                                         "headers": {
                                             "Ocp-Apim-Subscription-Key": "[listSecrets(resourceId('Microsoft.ApiManagement/service/subscriptions', parameters('apiManagement').name, parameters('apiManagement').subscriptions.demo), '2019-12-01').primaryKey]"
                                         },
-                                        "host": {
-                                            "connection": {
-                                                "name": "[concat('@parameters(''$connections'')[''', ('logicApp').apiConnections.customConnectorTopdesk, '''][''connectionId'']')]"
-                                            }
-                                        },
-                                        "method": "post",
-                                        "path": "[parameters('apiManagement').apis.topdesk.operations.materials.urlTemplate]",
                                         "queries": {
                                             "api-version": "v1"
                                         }
-                                    }
-                                },
-                                "Register_employee": {
+                                    },
                                     "runAfter": {
                                         "Order_materials": [
                                             "Succeeded"
                                         ]
                                     },
-                                    "type": "ApiConnection",
+                                    "type": "ApiManagement"
+                                },
+                                "Register_employee": {
                                     "inputs": {
+                                        "api": {
+                                            "id": "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiManagement').name, parameters('apiManagement').apis.hr2day)]"
+                                        },
+                                        "method": "post",
+                                        "pathTemplate": {
+                                            "parameters": {},
+                                            "template": "[concat('/', parameters('apiManagement').name, parameters('apiManagement').apis.hr2day.operations.registerEmployee.urlTemplate)]"
+                                        },
                                         "body": {
                                             "email": "@triggerBody()?['EmailAddress']",
                                             "function": "@triggerBody()?['Function']",
@@ -202,15 +205,14 @@
                                         },
                                         "headers": {
                                             "Ocp-Apim-Subscription-Key": "[listSecrets(resourceId('Microsoft.ApiManagement/service/subscriptions', parameters('apiManagement').name, parameters('apiManagement').subscriptions.demo), '2019-12-01').primaryKey]"
-                                        },
-                                        "host": {
-                                            "connection": {
-                                                "name": "[concat('@parameters(''$connections'')[''', ('logicApp').apiConnections.customConnectorTopdesk, '''][''connectionId'']')]"
-                                            }
-                                        },
-                                        "method": "post",
-                                        "path": "[parameters('apiManagement').apis.hr2day.operations.registerEmployee.urlTemplate]"
-                                    }
+                                        }
+                                    },
+                                    "runAfter": {
+                                        "Order_materials": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "ApiManagement"
                                 },
                                 "Send_an_email_(V2)": {
                                     "runAfter": {
