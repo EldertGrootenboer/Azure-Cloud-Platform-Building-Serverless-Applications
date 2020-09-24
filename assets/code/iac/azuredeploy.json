@@ -54,18 +54,6 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
-            "name": "azureblob",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[uri(parameters('gitHub').baseUri, 'azureblob.json')]",
-                    "contentVersion": "1.0.0.0"
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
             "name": "muhimbi",
             "properties": {
                 "mode": "Incremental",
@@ -107,6 +95,21 @@
                 "mode": "Incremental",
                 "templateLink": {
                     "uri": "[uri(parameters('gitHub').baseUri, 'storage-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "azureblob",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'storageAccount')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'azureblob.json')]",
                     "contentVersion": "1.0.0.0"
                 }
             }
