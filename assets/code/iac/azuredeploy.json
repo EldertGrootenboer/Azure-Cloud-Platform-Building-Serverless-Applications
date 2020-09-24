@@ -66,23 +66,6 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
-            "name": "azureeventgrid",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[uri(parameters('gitHub').baseUri, 'azureeventgrid.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "servicePrincipalClientIdEventGrid": {
-                        "value": "[parameters('servicePrincipalClientIdEventGrid')]"
-                    }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2019-10-01",
             "name": "muhimbi",
             "properties": {
                 "mode": "Incremental",
@@ -125,6 +108,26 @@
                 "templateLink": {
                     "uri": "[uri(parameters('gitHub').baseUri, 'storage-account.json')]",
                     "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "azureeventgrid",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'keyVault')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[uri(parameters('gitHub').baseUri, 'azureeventgrid.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "servicePrincipalClientIdEventGrid": {
+                        "value": "[parameters('servicePrincipalClientIdEventGrid')]"
+                    }
                 }
             }
         },
