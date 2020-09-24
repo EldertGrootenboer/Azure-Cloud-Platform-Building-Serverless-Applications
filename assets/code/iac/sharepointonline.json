@@ -11,7 +11,7 @@
         "logicApps": {
             "defaultValue": {
                 "apiConnections": {
-                    "office365": "sharepointonline"
+                    "sharepointonline": "sharepointonline"
                 }
             },
             "type": "object"
