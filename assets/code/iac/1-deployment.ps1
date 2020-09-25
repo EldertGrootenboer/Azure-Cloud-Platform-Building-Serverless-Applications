@@ -5,7 +5,7 @@
 
 # Update these according to the environment
 $subscriptionName = "Visual Studio Enterprise"
-$resourceGroupName = "rg-building-serverless-applications-5"
+$resourceGroupName = "rg-building-serverless-applications-6"
 $appRegistrationName = "sp-building-serverless-applications-event-grid"
 $administratorEmail = "me@eldert.net"
 $basePath = "C:\Users\elder\OneDrive\Sessions\Azure-s-Cloud-Platform-Building-Serverless-Applications"
@@ -35,7 +35,7 @@ if(-not $appRegistration)
 New-AzResourceGroup -Name $resourceGroupName -Location 'West Europe' -Tag @{CreationDate=[DateTime]::UtcNow.ToString(); Project="Azure’s Cloud Platform - Building Serverless Applications"; Purpose="Session"}
 New-AzResourceGroupDeployment -Name "BuildServerlessApps1" -ResourceGroupName $resourceGroupName -TemplateFile "$basePath\assets\code\iac\azuredeploy.1.json" -administratorObjectId $administratorObjectId -servicePrincipalPasswordEventGrid $clientSecret
 
-# Deploy contents of the App Service
+# Deploy contents of the Function
 dotnet publish "$basePath\assets\code\pgp-encryptor\Azure-s-Cloud-Platform-Building-Serverless-Applications.csproj" -c Release -o "$basePath\assets\code\pgp-encryptor\publish"
 Compress-Archive -Path "$basePath\assets\code\pgp-encryptor\publish\*" -DestinationPath "$basePath\assets\code\pgp-encryptor\Deployment.zip"
 $functionApp = Get-AzResource -ResourceGroupName $resourceGroupName -Name func-*
